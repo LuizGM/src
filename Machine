@@ -2,40 +2,40 @@ import java.util.Scanner;
 import java.util.HashMap;
 import java.util.TreeMap; 
 
-public class Machine {
+public class Maquina {
 
-	private HashMap<String,Item> stock;
+	private HashMap<String,Item> Estoque;
 
-	private TreeMap<Double, Integer> change;
+	private TreeMap<Double, Integer> mudar;
 
 	private HashMap<Integer, String> menu;
 
 	private double userMoney;
 
 
-	public void loadChange(Double cat, Integer amount) {
+	public void loadChange(Double cat, Integer quantia) {
 		if (change.get(cat) != null) {
 			int oldvalue = change.get(cat);
-			change.put(cat, oldvalue + amount);
+			change.put(cat, valor antigo + quantia);
 		}
 		else
-			change.put(cat, amount);
+			change.put(cat, quantia);
 	}
-	public void loadItems(String name,  Double price, Integer amount) {
-		if (stock.get(name) != null) {
-			Item current = stock.get(name);
-			current.setQuantity(current.getQuantity() + amount);
+	public void loadItems(String nome,  Double preço, Integer quantia) {
+		if (stock.get(nome) != null) {
+			Item atual = stock.get(nome);
+			current.setQuantity(current.getQuantity() + quantia);
 		}
 		else {
-			Item current = new Item(name, price, amount);
-			stock.put(name, current);
+			Item atual = new Item(nome, preço, quantia);
+			stock.put(nome, atual);
 		}
 	}
 
 	public Machine() {
-		stock = new HashMap<String, Item>();
+		estoque = new HashMap<String, Item>();
 
-		change = new TreeMap<Double, Integer>();
+		mudar = new TreeMap<Double, Integer>();
 
 		menu = new HashMap<Integer, String>();
 
@@ -55,14 +55,14 @@ public class Machine {
 
         Machine snackVendingMachine = new Machine();
 
-        //Insert items to the menu
+        //Insere items ao menu
         snackVendingMachine.menu.put(new Integer(1), "Snickers");
         snackVendingMachine.menu.put(new Integer(2), "KitKat");
-        snackVendingMachine.menu.put(new Integer(3), "DietCoke");
-        snackVendingMachine.menu.put(new Integer(4), "Sprite");
-        snackVendingMachine.menu.put(new Integer(5),"Skittles");
-        snackVendingMachine.menu.put(new Integer(6),"Starbust");
-        snackVendingMachine.menu.put(new Integer(7),"Muffin");
+        snackVendingMachine.menu.put(new Integer(3), "Chettos");
+        snackVendingMachine.menu.put(new Integer(4), "Sonho de Valsa");
+        snackVendingMachine.menu.put(new Integer(5),"Ruffles");
+        snackVendingMachine.menu.put(new Integer(6),"Fandangos");
+        snackVendingMachine.menu.put(new Integer(7),"Doritos");
 
         snackVendingMachine.loadChange(new Double(0.01), new Integer(100));
         snackVendingMachine.loadChange(new Double(0.02), new Integer(100));
@@ -73,53 +73,53 @@ public class Machine {
         snackVendingMachine.loadChange(new Double(1.0), new Integer(100));
         snackVendingMachine.loadChange(new Double(2.0), new Integer(100));
 
-        snackVendingMachine.loadItems("Snickers", 2.0, 3);
-        snackVendingMachine.loadItems("KitKat", 3.20, 7);
-        snackVendingMachine.loadItems("Skittles", 1.75, 5);
-        snackVendingMachine.loadItems("Muffin", 4.0, 15);
-        snackVendingMachine.loadItems("Starbust", 1.5, 5);
-        snackVendingMachine.loadItems("KitKat", 2.15, 12);
-        snackVendingMachine.loadItems("DietCoke", 1.75, 30);
+        snackVendingMachine.loadItems("Snickers", 2.0, 7);
+        snackVendingMachine.loadItems("KitKat", 2.20, 5);
+        snackVendingMachine.loadItems("Ruffles", 5.25, 10);
+        snackVendingMachine.loadItems("Doritos", 4.0, 8);
+        snackVendingMachine.loadItems("Fandangos", 4.0, 11);
+        snackVendingMachine.loadItems("Sonho de Valsa", 1.5, 3);
+        snackVendingMachine.loadItems("Chettos", 3.5, 20);
 
 
         snackVendingMachine.runMachine();
         
     }
-    public void buyItem(Integer sel, double money) {
+    public void buyItem(Integer vender, double dinheiro) {
 
-    	Item current = this.stock.get(this.menu.get(sel));
-    	double expected = current.getPrice();
-    	if (money > expected) {
-    		if (expected - money < this.getMachineTotal()) {
-    			this.dispenseItem(current);
-    			this.makeChange(money - expected);
-                this.userMoney = (double) (money - expected);
+    	Item atual = this.stock.get(this.menu.get(vender));
+    	double esperado = current.getPrice();
+    	if (dinheiro > esperado) {
+    		if (esperado - dinheiro < this.getMachineTotal()) {
+    			this.dispenseItem(atual);
+    			this.makeChange(dinheiro - esperado);
+                this.userMoney = (double) (dinheiro - esperado);
     		}
     		else
-    			System.out.println("Sorry ! Not enough change. Aborting operation");
+    			System.out.println("Desculpa ! Mudança insuficiente. Cancelando Operação");
     	}
     	else
-    		System.out.println("Sorry, Insufficent funds ! Please insert  "+(expected - money)+" to buy this item");
+    		System.out.println("Desculpe, dinheiro insuficiente! Insira "+ (esperado - dinheiro) +" para comprar este item");
 
 
     }
 
     public void dispenseItem(Item newItem) {
     	newItem.setQuantity(newItem.getQuantity()-1);
-    	System.out.println("Please take the "+newItem.getName()+" from the drawer");
+    	System.out.println("Porfavor pegue o "+newItem.getName()+" da gaveta");
     }
 
     public void runMachine() {
 
     	Scanner input = new Scanner(System.in);
-    	System.out.println("SELECTION MENU");
-        for (Integer number : this.menu.keySet())
+    	System.out.println("MENU DE SELEÇÃO");
+        for (Integer numero : this.menu.keySet())
         {
-        	String name = this.menu.get(number);
-        	if(this.stock.get(name) != null)
-        		System.out.println("Press "+ (int) number+" for "+ name + " price "+ this.stock.get(name).getPrice());
+        	String nome = this.menu.get(numero);
+        	if(this.stock.get(nome) != null)
+        		System.out.println("pressione "+ (int) numero+" para "+ nome + " preço "+ this.stock.get(nome).getPrice());
         }
-        System.out.println("Please enter coins and bills followed by * to start selection: ");
+        System.out.println("Insira moedas e notas seguidas de * para iniciar a seleção: ");
         boolean exit = false;
         while (true)
         {
@@ -132,23 +132,23 @@ public class Machine {
         	}
             while (!exit) {
 
-                System.out.println("Amount credited: "+this.userMoney);
+                System.out.println("quantia creditado: "+this.userMoney);
                 
-                System.out.println("Please enter a selection, $ to add credit or EXIT to quit: ");
+                System.out.println("Porfavor selecione, $ para adicionar dinheiro ou SAIR para sair da maquina: ");
 
             	if(input.hasNextInt()) {
-            		int selection = input.nextInt();
-                    if (this.menu.containsKey(selection))
+            		int selecionar = input.nextInt();
+                    if (this.menu.containsKey(selecionar))
                         buyItem(selection, this.userMoney);
             		else
-            			System.out.println("Enter a valid menu item");
+            			System.out.println("Insira um item do menu valido");
             	}
                 else {
 
                     String command = input.next();
                     if (command.equals("$")) {
 
-                        System.out.println("Please enter coins and bills followed by * to add credit");
+                        System.out.println("Insira moedas ou notas seguidas de * para colocar credito");
                         while (input.hasNext()) {
                             if (input.hasNextDouble())
                             this.userMoney = this.userMoney + input.nextDouble();
@@ -156,9 +156,9 @@ public class Machine {
                             break;
                         }
                     }
-                    else if (command.equals("EXIT")) {
+                    else if (command.equals("SAIR")) {
 
-                        System.out.println("Goodbye ! Have a nice day");
+                        System.out.println("Muito Obrigado! Tenha um excelente dia.");
                         System.exit(0);
                     }
                 }
@@ -167,19 +167,19 @@ public class Machine {
         }
     }
 
-    public void makeChange(Double needed)
+    public void makeChange(Double necessita)
     {
-        System.out.println("Change needed :"+needed);
-    	double temp = needed;
-    	for (Double value : this.change.descendingMap().keySet()) {
+        System.out.println("mudança necessaria :"+necessaria);
+    	double temp = necessita;
+    	for (Double valor : this.change.descendingMap().keySet()) {
 
-    		int numCoins = (int) (temp  / value.doubleValue());
+    		int numMoedas = (int) (temp  / value.doubleValue());
     		temp = temp % value.doubleValue();
-    		if (numCoins > 0) {
-    			int old = this.change.get(value).intValue();
-    			if (numCoins < old) {
-    				this.change.put(value, new Integer(old - numCoins));
-    				System.out.println("Please take your "+numCoins+" coin of "+ value);
+    		if (numMoedas > 0) {
+    			int velho = this.change.get(valor).intValue();
+    			if (numMoedas < velho) {
+    				this.change.put(valor, new Integer(old - numMoedas));
+    				System.out.println("Porfavor pegue sua "+numMoedas+" moeda de"+ valor);
     			}
     		}
     	}
